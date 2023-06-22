@@ -1,0 +1,45 @@
+#include <bits/stdc++.h> 
+// without set 
+void permuatation(vector<int> s,vector<vector<int>> &ans,int currIndex){
+    if(currIndex==s.size()){
+      ans.push_back(s);
+      return; 
+    }
+
+    for(int i = currIndex; i < s.size(); i++) {
+
+      if(i==currIndex || s[i]!=s[currIndex]){
+        swap(s[i],s[currIndex]);
+        permuatation(s,ans,currIndex+1); 
+		//pass new ref always No remodify
+      }
+    }
+}
+void permuatation1(vector<int> &s,set<vector<int>> &ans,int currIndex){
+    if(currIndex==s.size()){
+      ans.insert(s);
+      return; 
+    }
+
+    for(int i = currIndex; i < s.size(); i++) {
+
+      swap(s[i],s[currIndex]);
+      permuatation1(s,ans,currIndex+1); 
+
+	  // to remodify original
+      swap(s[i],s[currIndex]);
+
+    }
+}
+vector<vector<int> > uniquePermutations(vector<int> &s, int n) {
+	
+	// vector<vector<int>> ans;
+    // sort(s.begin(),s.end());
+    // permuatation(s,ans,0);
+
+     set<vector<int>> st;
+     permuatation1(s,st,0);
+     vector<vector<int>> ans(st.begin(),st.end());
+
+    return ans;
+}
